@@ -1,0 +1,37 @@
+version: '2'
+services:
+
+    # our web application
+    laraveldemo:
+        build:
+            context: ./
+            dockerfile: app.dockerfile
+        volumes:
+            - ./:/var/www
+        working_dir: /var/www
+        environment:
+            - DB_HOST=database
+            - REDIS_HOST=redis
+
+    nginx:
+            build:
+                context: ./
+                dockerfile: nginx.dockerfile
+            volumes:
+                - ./public:/var/www/public
+            ports:
+                - 80:80
+# mysql database
+    database:
+        image: mysql:5.7
+        environment:
+          - "MYSQL_ROOT_PASSWORD=root"
+          - "MYSQL_DATABASE=larabbs"
+          - "MYSQL_USER=homestead"
+          - "MYSQL_PASSWORD=secret"
+
+    # redis database
+    redis:
+        image: redis:5
+#  
+   
