@@ -6,7 +6,9 @@
     <title>注册界面</title>
 </head>
 <body>
+   
     <form action="{{ url('/user/signinToDB') }}" method="POST">
+
         <table>
             <tr>
                 {{ csrf_field() }}

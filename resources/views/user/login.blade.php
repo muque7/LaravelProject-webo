@@ -6,7 +6,9 @@
     <title>登录界面</title>
 </head>
 <body>
+    
     <form action="{{ url('/user/login') }}" method="POST">
+    {{ csrf_field() }}
         <table>
             <tr>
                 <td>Userid</td>

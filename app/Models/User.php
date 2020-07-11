@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    public $table ='users';
+    public $table ='user';
 
     public $primaryKey = 'id';
     /**
@@ -23,21 +23,17 @@ class User extends Authenticatable
     ];
 
     public $timestamps = false;
+    
     /**
-     * The attributes that should be hidden for arrays.
+     * 获取用户的头像
      *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
+     * @param string $size
      *
-     * @var array
+     * @return void
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function gravatar($size = '100')
+    {
+        $hash = md5(strtolower(trim($this->attributes['id'])));
+        return "http://www.gravatar.com/avatar/$hash?s=$size";
+    }
 }

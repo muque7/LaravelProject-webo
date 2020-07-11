@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
 class StaticPagesController extends Controller
 {
-    
+    public function home()
+    {
+        return view('weibo/home');
+    }
+
+    public function help()
+    {
+        return view('weibo/help');
+    }
+
+    public function about()
+    {
+        return view('weibo/about');
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +16,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
         session()->forget('user');
-        $user = DB::table('users')->where([
+        $user = DB::table('user')->where([
             ['id', $request['id']],
             ['password', md5($request['password'])],
         ])->get()->all();
@@ -34,8 +34,8 @@ class UserController extends Controller
      */
     public function signinToDB(Request $request)
     {
-        $res = DB::table('users')->insertGetId(['username' => $request['username'], 'password' => md5($request['password'])]);
-        $user = DB::table('users')->where([
+        $res = DB::table('user')->insertGetId(['username' => $request['username'], 'password' => md5($request['password'])]);
+        $user = DB::table('user')->where([
             ['id', $res],
         ])->get()->all();  
 
@@ -59,7 +59,7 @@ class UserController extends Controller
         $user = session('user');
         info(var_export($user,true));
 
-        $users = DB::table('users')->where('authority', '<', $user->authority)->orWhere('id', $user->id)->get();
+        $users = DB::table('user')->where('authority', '<', $user->authority)->orWhere('id', $user->id)->get();
         return view('user/home', ['user' => $user, 'users' => $users]);
     }
 
@@ -69,7 +69,7 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-        DB::table('users')->where('id', $id)->delete();
+        DB::table('user')->where('id', $id)->delete();
         return $this->toHome();
     }
 
@@ -92,7 +92,7 @@ class UserController extends Controller
     {
         $user = session('user');
         if ($user->authority > $request['authority'] || $user->id == $request['id']) {
-            DB::table('users')->where('id', $request['id'])->update(['username' => $request['username'], 'password' => md5($request['password']), 'authority' => $request['authority']]);
+            DB::table('user')->where('id', $request['id'])->update(['username' => $request['username'], 'password' => md5($request['password']), 'authority' => $request['authority']]);
             return $this->toHome();
         } else {
             return back();
