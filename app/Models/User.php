@@ -21,8 +21,6 @@ class User extends Authenticatable
     protected $fillable = [
         'username', 'password', 'authority'
     ];
-
-    public $timestamps = false;
     
     /**
      * 获取用户的头像
